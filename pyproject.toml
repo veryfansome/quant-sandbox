@@ -1,0 +1,32 @@
+[project]
+name = "quant-sandbox"
+version = "0.1.0"
+description = "Sandbox for playing with financial data"
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp",
+    "certifi",
+    "matplotlib",
+    "numpy",
+    "polars",
+    "pydantic",
+    "python-dateutil",
+    "scikit-learn",
+    "torch",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --cov=quant_sandbox"
+testpaths = [
+    "tests",
+]
