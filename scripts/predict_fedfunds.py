@@ -8,9 +8,11 @@ from torch.utils.data import Dataset, DataLoader
 
 from quant_sandbox.common import set_seed
 from quant_sandbox.macro_df import (
+    BBKMCOIX,
     CORESTICKM159SFRBATL as CORE,
     FEDFUNDS,
     M2REAL,
+    PAYEMS,
     UNRATE,
 )
 
@@ -44,11 +46,38 @@ class FedRatePredictor(nn.Module):
 
 
 def prepare_data():
+    bbk = BBKMCOIX.with_columns([
+        (pl.col("BBKMCOIX").pct_change(1) * 100).alias("BBKMCOIX % chg 1M"),
+        #(pl.col("BBKMCOIX").pct_change(3) * 100).alias("BBKMCOIX % chg 3M"),
+        #(pl.col("BBKMCOIX").pct_change(6) * 100).alias("BBKMCOIX % chg 6M"),
+        #(pl.col("BBKMCOIX").pct_change(12) * 100).alias("BBKMCOIX % chg 12M"),
+        #(pl.col("BBKMCOIX").pct_change(24) * 100).alias("BBKMCOIX % chg 24M"),
+    ])
+
+    m2real = M2REAL.with_columns([
+        #(pl.col("M2REAL").pct_change(1) * 100).alias("M2REAL % chg 1M"),
+        #(pl.col("M2REAL").pct_change(3) * 100).alias("M2REAL % chg 3M"),
+        #(pl.col("M2REAL").pct_change(6) * 100).alias("M2REAL % chg 6M"),
+        (pl.col("M2REAL").pct_change(12) * 100).alias("M2REAL % chg 12M"),
+        #(pl.col("M2REAL").pct_change(24) * 100).alias("M2REAL % chg 24M"),
+    ]).drop("M2REAL")
+
+    payems = PAYEMS.with_columns([
+        #(pl.col("PAYEMS").pct_change(1) * 100).alias("PAYEMS % chg 1M"),
+        #(pl.col("PAYEMS").pct_change(3) * 100).alias("PAYEMS % chg 3M"),
+        #(pl.col("PAYEMS").pct_change(6) * 100).alias("PAYEMS % chg 6M"),
+        (pl.col("PAYEMS").pct_change(12) * 100).alias("PAYEMS % chg 12M"),
+        #(pl.col("PAYEMS").pct_change(24) * 100).alias("PAYEMS % chg 24M"),
+    ]).drop("PAYEMS")
+
     # Join all dataframes on 'observation_date' using "inner" joins to only keep dates where we have all 3 signals
     df = (
         FEDFUNDS
+        .join(bbk, on="observation_date", how="inner")
+        #.join(BBKMCOIX, on="observation_date", how="inner")
         .join(CORE, on="observation_date", how="inner")
-        .join(M2REAL, on="observation_date", how="inner")
+        .join(m2real, on="observation_date", how="inner")
+        .join(payems, on="observation_date", how="inner")
         .join(UNRATE, on="observation_date", how="inner")
     )
     # We want to predict FEDFUNDS at time T+1 given data at time T.

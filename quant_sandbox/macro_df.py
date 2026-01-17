@@ -14,11 +14,21 @@ UMCSENT = pl.read_csv(
     os.path.join(fed_data_dir, 'UMCSENT.csv'), try_parse_dates=True
 )
 
-# GDP
+# Economic activity
+
+BBKMCOIX = pl.read_csv(
+    # Monthly
+    os.path.join(fed_data_dir, 'BBKMCOIX.csv'), try_parse_dates=True
+)
 
 BBKMGDP = pl.read_csv(
     # Monthly
     os.path.join(fed_data_dir, 'BBKMGDP.csv'), try_parse_dates=True
+)
+
+BBKMLEIX = pl.read_csv(
+    # Monthly
+    os.path.join(fed_data_dir, 'BBKMLEIX.csv'), try_parse_dates=True
 )
 
 GDPC1 = pl.read_csv(
@@ -63,14 +73,6 @@ PAYEMS = pl.read_csv(
     # Monthly
     os.path.join(fed_data_dir, 'PAYEMS.csv'), try_parse_dates=True
 )
-#PAYEMS = PAYEMS.with_columns([
-#    #(pl.col("PAYEMS").pct_change(1) * 100).alias("PAYEMS % chg 1M"),
-#    #(pl.col("PAYEMS").pct_change(2) * 100).alias("PAYEMS % chg 2M"),
-#    #(pl.col("PAYEMS").pct_change(3) * 100).alias("PAYEMS % chg 3M"),
-#    #(pl.col("PAYEMS").pct_change(6) * 100).alias("PAYEMS % chg 6M"),
-#    #(pl.col("PAYEMS").pct_change(9) * 100).alias("PAYEMS % chg 9M"),
-#    #(pl.col("PAYEMS").pct_change(12) * 100).alias("PAYEMS % chg 12M"),
-#])
 
 U2RATE = pl.read_csv(
     # Monthly

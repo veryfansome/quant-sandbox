@@ -47,6 +47,8 @@ async def main(download_dir, urls, concurrency=5):
 if __name__ == '__main__':
     base_dir = get_base_dir()
     urls_to_fetch = [
+        # Brave-Butters-Kelley Coincident Index
+        "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BBKMCOIX",
         # Brave-Butters-Kelley Real Gross Domestic Product
         "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BBKMGDP",
         # Brave-Butters-Kelley Leading Index
@@ -65,6 +67,8 @@ if __name__ == '__main__':
         "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PAYEMS",
         # Personal Consumption Expenditures
         "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCE",
+        # Personal Consumption Expenditures Excluding Food and Energy (Chain-Type Price Index)
+        "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCEPILFE",
         # Unemployment Rate - Job Losers
         "https://fred.stlouisfed.org/graph/fredgraph.csv?id=U2RATE",
         # Total Unemployed, Plus All Persons Marginally Attached to the Labor Force, Plus Total Employed Part Time
